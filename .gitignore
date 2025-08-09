@@ -1,0 +1,75 @@
+# WordPress Core
+wp-config.php
+
+# Content stored in project root
+/uploads/
+/cache/
+/blogs.dir/
+/upgrade/
+/backup-db/
+/advanced-cache.php
+/wp-cache-config.php
+/updraft/
+
+# WordPress multisite (if applicable)
+/blog-deleted/
+/blog-inactive/
+/blog-suspended/
+
+# Ignore all plugins (manage via Composer or deployment)
+/plugins/
+
+# Ignore default themes
+/themes/twenty*/
+/themes/index.php
+
+# Log files
+*.log
+debug.log
+
+# htaccess
+/.htaccess
+
+# WP CLI
+wp-cli.local.yml
+
+# Composer
+/vendor/
+composer.lock
+
+# Node modules (if using any build tools)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build outputs
+/build/
+/dist/
+
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
