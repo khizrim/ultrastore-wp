@@ -4,3 +4,6 @@ wp-content
 .env
 .git
 .gitignore
+
+# keep wp-config.php in build context to bake it into the image
+# (no ignore rule; file will be copied by Dockerfile)
