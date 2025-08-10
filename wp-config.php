@@ -25,11 +25,6 @@ define('DB_COLLATE',  '');
 // 🌐 Язык интерфейса
 define('WPLANG', getenv_docker('WORDPRESS_LANGUAGE', 'ru_RU'));
 
-// ⚙️ Настройки кэша
-define('WP_CACHE', filter_var(getenv_docker('WORDPRESS_CACHE', true), FILTER_VALIDATE_BOOLEAN));
-define('WPCACHEHOME', getenv_docker('WPCACHEHOME', '/var/www/html/wp-content/plugins/wp-super-cache/'));
-
-
 // 🌍 URL сайта
 define('WP_HOME',    getenv_docker('WP_HOME', 'https://shop.ultrastore.khizrim.online'));
 define('WP_SITEURL', getenv_docker('WP_SITEURL', 'https://shop.ultrastore.khizrim.online'));
