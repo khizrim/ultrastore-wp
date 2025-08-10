@@ -16,9 +16,9 @@ if (!function_exists('getenv_docker')) {
 
 // 📦 Настройки базы данных
 define('DB_NAME',     getenv_docker('WORDPRESS_DB_NAME', 'wordpress'));
-define('DB_USER',     getenv_docker('WORDPRESS_DB_USER', 'user'));
-define('DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'password'));
-define('DB_HOST',     getenv_docker('WORDPRESS_DB_HOST', 'mysql'));
+define('DB_USER',     getenv_docker('WORDPRESS_DB_USER', 'wpuser'));
+define('DB_PASSWORD', getenv_docker('WORDPRESS_DB_PASSWORD', 'wppass'));
+define('DB_HOST',     getenv_docker('WORDPRESS_DB_HOST', '127.0.0.1'));
 define('DB_CHARSET',  'utf8mb4');
 define('DB_COLLATE',  '');
 
