@@ -60,17 +60,19 @@ GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'%';
 FLUSH PRIVILEGES;
 SQL
 
-# Install WordPress core if missing
-if [ ! -f "$WP_PATH/wp-config.php" ]; then
-  echo "Bootstrapping WordPress..."
+# Ensure WordPress core files present and installed
+if [ ! -f "$WP_PATH/wp-includes/version.php" ]; then
+  echo "Downloading WordPress core..."
   sudo -u www-data wp core download --path="$WP_PATH" --allow-root --force
-  sudo -u www-data wp config create --path="$WP_PATH" --allow-root \
-    --dbname="$DB_NAME" --dbuser="$DB_USER" --dbpass="$DB_PASSWORD" --dbhost="$DB_HOST" --dbprefix="$DB_PREFIX" \
-    --skip-check
+fi
+
+# If site not installed yet, run install (wp-config.php already baked into image)
+if ! sudo -u www-data wp core is-installed --path="$WP_PATH" --allow-root >/dev/null 2>&1; then
+  echo "Installing WordPress site..."
   sudo -u www-data wp core install --path="$WP_PATH" --allow-root \
     --url="$SITE_URL" --title="$SITE_TITLE" \
     --admin_user="$ADMIN_USER" --admin_password="$ADMIN_PASSWORD" --admin_email="$ADMIN_EMAIL" \
-    --skip-email
+    --skip-email || true
 fi
 
 # Install and activate WooCommerce if requested

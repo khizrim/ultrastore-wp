@@ -1,7 +1,6 @@
 **/.DS_Store
 **/node_modules
 wp-content
-wp-config.php
 .env
 .git
 .gitignore

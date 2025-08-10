@@ -36,6 +36,10 @@ RUN chmod +x /usr/local/bin/entrypoint.sh \
     && chown -R www-data:www-data ${WP_PATH} \
     && mkdir -p /run/php
 
+# Provide wp-config.php with reverse-proxy HTTPS awareness and env-based config
+COPY wp-config.php ${WP_PATH}/wp-config.php
+RUN chown www-data:www-data ${WP_PATH}/wp-config.php
+
 EXPOSE 80
 
 CMD ["/usr/local/bin/entrypoint.sh"]
