@@ -8,7 +8,7 @@ DB_USER=${WORDPRESS_DB_USER:-wpuser}
 DB_PASSWORD=${WORDPRESS_DB_PASSWORD:-wppass}
 DB_PREFIX=${WORDPRESS_TABLE_PREFIX:-wp_}
 ROOT_PASSWORD=${MARIADB_ROOT_PASSWORD:-}
-SITE_URL=${WORDPRESS_SITE_URL:-http://localhost:8080}
+SITE_URL=${WP_SITEURL:-http://localhost:8080}
 SITE_TITLE=${WORDPRESS_SITE_TITLE:-Ultrastore POC}
 ADMIN_USER=${WORDPRESS_ADMIN_USER:-admin}
 ADMIN_PASSWORD=${WORDPRESS_ADMIN_PASSWORD:-admin}
@@ -42,18 +42,26 @@ for i in {1..60}; do
   fi
 done
 
-# Set root password if provided
+# Set root password if provided (idempotent)
 ROOT_PASS_OPT=""
 if [ -n "$ROOT_PASSWORD" ]; then
-  mariadb -uroot <<SQL
+  if mariadb -uroot --socket=/run/mysqld/mysqld.sock -e "SELECT 1" >/dev/null 2>&1; then
+    mariadb -uroot --socket=/run/mysqld/mysqld.sock <<SQL
 ALTER USER 'root'@'localhost' IDENTIFIED BY '${ROOT_PASSWORD}';
 FLUSH PRIVILEGES;
 SQL
+  else
+    if mariadb -uroot -p${ROOT_PASSWORD} --socket=/run/mysqld/mysqld.sock -e "SELECT 1" >/dev/null 2>&1; then
+      true
+    else
+      echo "Warning: Unable to set or verify MariaDB root password" >&2
+    fi
+  fi
   ROOT_PASS_OPT="-p${ROOT_PASSWORD}"
 fi
 
 # Create DB and user
-mariadb -uroot ${ROOT_PASS_OPT} <<SQL
+mariadb -uroot ${ROOT_PASS_OPT} --socket=/run/mysqld/mysqld.sock <<SQL
 CREATE DATABASE IF NOT EXISTS \`${DB_NAME}\` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 CREATE USER IF NOT EXISTS '${DB_USER}'@'%' IDENTIFIED BY '${DB_PASSWORD}';
 GRANT ALL PRIVILEGES ON \`${DB_NAME}\`.* TO '${DB_USER}'@'%';

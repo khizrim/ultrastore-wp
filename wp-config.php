@@ -25,9 +25,10 @@ define('DB_COLLATE',  '');
 // 🌐 Язык интерфейса
 define('WPLANG', getenv_docker('WORDPRESS_LANGUAGE', 'ru_RU'));
 
-// 🌍 URL сайта
-define('WP_HOME',    getenv_docker('WP_HOME', 'https://shop.ultrastore.khizrim.online'));
-define('WP_SITEURL', getenv_docker('WP_SITEURL', 'https://shop.ultrastore.khizrim.online'));
+// 🌍 URL сайта (каноническая переменная)
+$__wp_siteurl = getenv_docker('WP_SITEURL', 'http://localhost:8080');
+define('WP_SITEURL', $__wp_siteurl);
+define('WP_HOME', $__wp_siteurl);
 
 // 🔐 Уникальные ключи и соли безопасности
 define('AUTH_KEY',         getenv_docker('WP_AUTH_KEY'));
@@ -40,6 +41,8 @@ define('LOGGED_IN_SALT',   getenv_docker('WP_LOGGED_IN_SALT'));
 define('NONCE_SALT',       getenv_docker('WP_NONCE_SALT'));
 
 // 🔒 Защита и стабильность
+define('FORCE_SSL_ADMIN', false);
+define('FORCE_SSL_LOGIN', false);
 define('DISALLOW_FILE_EDIT',     filter_var(getenv_docker('DISALLOW_FILE_EDIT', false), FILTER_VALIDATE_BOOLEAN));
 define('WP_AUTO_UPDATE_CORE',    getenv_docker('WP_AUTO_UPDATE_CORE', 'minor'));
 define('WP_DEBUG',               filter_var(getenv_docker('WP_DEBUG', false), FILTER_VALIDATE_BOOLEAN));
