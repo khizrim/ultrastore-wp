@@ -26,9 +26,8 @@ define('DB_COLLATE',  '');
 define('WPLANG', getenv_docker('WORDPRESS_LANGUAGE', 'ru_RU'));
 
 // 🌍 URL сайта (каноническая переменная)
-$__wp_siteurl = getenv_docker('WP_SITEURL', 'http://localhost:8080');
-define('WP_SITEURL', $__wp_siteurl);
-define('WP_HOME', $__wp_siteurl);
+define('WORDPRESS_SITE_URL', getenv_docker('WORDPRESS_SITE_URL', 'http://localhost:8080'));
+define('WP_HOME', getenv_docker('WORDPRESS_SITE_URL', 'http://localhost:8080'));
 
 // 🔐 Уникальные ключи и соли безопасности
 define('AUTH_KEY',         getenv_docker('WP_AUTH_KEY'));

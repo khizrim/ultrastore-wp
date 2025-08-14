@@ -9,6 +9,7 @@
 /advanced-cache.php
 /wp-cache-config.php
 /updraft/
+/data/
 
 # WordPress multisite (if applicable)
 /blog-deleted/
